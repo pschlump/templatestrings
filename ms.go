@@ -1,7 +1,7 @@
 //
 // Copyright (C) Philip Schlump, 2013-2015.
 //
-// My Strings (ms) package
+// Misc template related  strings (ms) package
 //
 // String and Os/String related support functions that work with Go (golang) templates.
 //
