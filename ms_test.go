@@ -3,10 +3,11 @@
 package templatestrings
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"testing"
+
+	"github.com/pschlump/json" //	"encoding/json"
 )
 
 //type TestCase struct {
