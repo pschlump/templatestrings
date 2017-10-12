@@ -9,6 +9,7 @@
 package templatestrings
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -352,7 +353,8 @@ func rmTrailingZ(s string, t string) string {
 func init() {
 	// isIntStringRe = regexp.MustCompile("[0-9][0-9]*")
 	// const ISO8601 = "2006-01-02T15:04:05.99999Z07:00"
-	/* 0 */ datePatTab = append(datePatTab, datePat{regexp.MustCompile(`"`), rmQuote, ""})
+	/* 0 */
+	datePatTab = append(datePatTab, datePat{regexp.MustCompile(`"`), rmQuote, ""})
 	/* 1 */ datePatTab = append(datePatTab, datePat{regexp.MustCompile(`Z$`), rmTrailingZ, ""})
 	/* 2 */ datePatTab = append(datePatTab, datePat{regexp.MustCompile(`^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+$`), nil, "2006-01-02T15:04:05.99999"})
 	/* 3 */ datePatTab = append(datePatTab, datePat{regexp.MustCompile(`^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$`), nil, "2006-01-02T15:04:05"})
@@ -577,6 +579,29 @@ func IfIsNotNull(dataHash map[string]interface{}, it string) bool {
 		}
 	}
 	return false
+}
+
+// ===================================================================================================================================================
+// JSON
+// Fri Sep 22 09:23:39 MDT 2017
+func ToJSON(arg interface{}) string {
+	s, err := json.Marshal(arg)
+	// s, err := json.MarshalIndent(arg, "", "\t")
+	if err != nil {
+		return fmt.Sprintf("Error:%s", err)
+	} else {
+		return string(s)
+	}
+}
+
+func ToJSONFormated(arg interface{}) string {
+	// s, err := json.Marshal ( arg )
+	s, err := json.MarshalIndent(arg, "", "\t")
+	if err != nil {
+		return fmt.Sprintf("Error:%s", err)
+	} else {
+		return string(s)
+	}
 }
 
 // ===================================================================================================================================================
