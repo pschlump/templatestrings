@@ -1,5 +1,5 @@
 //
-// Copyright (C) Philip Schlump, 2013-2015.
+// Copyright (C) Philip Schlump, 2013-2018.
 //
 // Misc template related  strings (ms) package
 //
@@ -27,7 +27,6 @@ import (
 	strftime "github.com/hhkbp2/go-strftime" // ../strftime
 	tr "github.com/pschlump/godebug"
 	words "github.com/pschlump/gowords"
-
 	"github.com/pschlump/picfloat" // "../picfloat"
 	"github.com/pschlump/pictime"  // "../pictime"
 )
@@ -642,6 +641,26 @@ func DoGet(client *http.Client, url string) string {
 	}
 
 	return string(rv)
+}
+
+// data["TmpFileName"]
+//		"TmpFileName": ms.genTmpFileName("./", "", func(fn string) {
+//			tmpFileName = fn
+//		}),
+
+// ===================================================================================================================================================
+func GenTmpFileName(dir, prefix string, fx func(fn string)) func() string {
+	return func() string {
+		file, err := ioutil.TempFile(dir, prefix)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %s generating temporary file name", err)
+			return ""
+		}
+		fn := file.Name()
+		defer os.Remove(fn)
+		fx(fn)
+		return fn
+	}
 }
 
 /* vim: set noai ts=4 sw=4: */
